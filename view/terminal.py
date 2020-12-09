@@ -1,4 +1,5 @@
 import os
+from prettytable import PrettyTable()
 
 def print_menu(title, list_options):
     """Prints options in standard menu format like this:
@@ -61,7 +62,17 @@ def print_table(table):
     Args:
         table: list of lists - the table to print out
     """
-    pass
+
+    display_table = PrettyTable()
+    display_table.field_names = table[0]
+    row_index = 1
+
+    while row_index < len(table):
+        display_table.add_row(table[row_index])
+        row_index += 1
+
+    print(display_table)
+
 
 
 def get_input(label):
