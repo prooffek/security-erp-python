@@ -1,5 +1,5 @@
 import os
-from prettytable import PrettyTable()
+from prettytable import PrettyTable
 
 def print_menu(title, list_options):
     """Prints options in standard menu format like this:
