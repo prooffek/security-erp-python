@@ -1,3 +1,5 @@
+import os
+
 def print_menu(title, list_options):
     """Prints options in standard menu format like this:
 
@@ -11,7 +13,13 @@ def print_menu(title, list_options):
         title (str): the title of the menu (first row)
         list_options (list): list of the menu options (listed starting from 1, 0th element goes to the end)
     """
-    pass
+    os.system("cls | clear")
+
+    print(f"{title}:\n")
+
+    for option_index in range(len(list_options)):
+        print(f"  ({option_index}) {list_options[option_index]}")
+
 
 
 def print_message(message):
