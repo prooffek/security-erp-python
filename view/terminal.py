@@ -37,7 +37,15 @@ def print_general_results(result, label):
     lists/tuples (like "@label: \n  @item1; @item2"), and dictionaries
     (like "@label \n  @key1: @value1; @key2: @value2")
     """
-    pass
+    if type(result) == int or type(result) == float:
+        print(f"{label}: %.2f" % result)
+    elif type(result) == list or type(result) == tuple:
+        print(f"{label}:\n  ", end = "")
+        [print(item) if item == result[-1] else print(item, end = "; ") for item in result]
+    elif type(result) == dict:
+        print(f"{label}\n  ", end = "")
+        last_key = list(result.keys())[-1]
+        [print(f"{key}: {value}") if key == last_key else print(f"{key}: {value}", end = "; ") for key, value in result.items()]
 
 
 # /--------------------------------\
