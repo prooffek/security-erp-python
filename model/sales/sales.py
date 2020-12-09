@@ -12,3 +12,17 @@ from model import data_manager, util
 
 DATAFILE = "model/sales/sales.csv"
 HEADERS = ["Id", "Customer", "Product", "Price", "Date"]
+
+
+def read_table():
+    
+    table = data_manager.read_table_from_file(DATAFILE)
+    table.insert(0, HEADERS)
+
+    return table
+
+
+def write_table(table):
+
+    data_manager.write_table_to_file(DATAFILE, table)
+    
