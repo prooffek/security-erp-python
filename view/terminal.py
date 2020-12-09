@@ -20,7 +20,7 @@ def print_message(message):
     Args:
         message: str - the message
     """
-    pass
+    print(message)
 
 
 def print_general_results(result, label):
@@ -68,6 +68,8 @@ def get_inputs(labels):
     for label_index in range(labels):
         user_input = input(labels[label_index])
         inputs_user.append(user_input)
+    
+    return inputs_user
 
 
 def print_error_message(message):
@@ -76,4 +78,4 @@ def print_error_message(message):
     Args:
         message: str - the error message
     """
-    pass
+    print(message)
