@@ -4,30 +4,50 @@ from view import terminal as view
 
 
 def list_employees():
-    table = hr.get_hr_table_from_file()
+    list_of_employees = hr.get_hr_table_from_file()
     print("List of Emplyees\n")
-    view.print_table(table)
+    view.print_table(list_of_employees)
     
     #view.print_error_message("Not implemented yet.")
 
 
 def add_employee():
-    table = hr.get_hr_table_from_file()
-    options = hr.HEADERS[1:]
+    list_of_employees = hr.get_hr_table_from_file()
+    employee_data = hr.HEADERS[1:]
     continue_adding = "y"
 
     while continue_adding.lower() in ["y", "yes"]:
-        new_employee = [util.generate_id()] + view.get_inputs(options)
-        table.append(new_employee)
+        new_employee = [util.generate_id()] + view.get_inputs(employee_data)
+        list_of_employees.append(new_employee)
         continue_adding = input("Do you want to add another employee? (y/n): ")
 
-    hr.write_hr_table_to_file(table)
+    hr.write_hr_table_to_file(list_of_employees)
 
     #view.print_error_message("Not implemented yet.")
 
 
 def update_employee():
-    view.print_error_message("Not implemented yet.")
+    list_of_employees = hr.get_hr_table_from_file()
+    employee_ID = view.get_input("Please, enter the employee's ID number: ")
+    employee_data = hr.HEADERS[1:]
+    ID_index = 0
+    found_ID = False
+
+    while not found_ID:
+        for employee in list_of_employees:
+            if employee[ID_index] == employee_ID:
+                employee[1:] = view.get_inputs(employee_data)
+                found_ID = True
+                break
+        
+        if not found_ID:
+            user_input = input("The ID provided matches no employee. Do you want to enter a different ID? (y/n): ")
+            if user_input.lower in ['n', 'no']:
+                found_ID = True
+
+    hr.write_hr_table_to_file(list_of_employees)
+
+    #view.print_error_message("Not implemented yet.")
 
 
 def delete_employee():
