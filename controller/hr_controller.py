@@ -28,12 +28,12 @@ def add_employee():
 
 def update_employee():
     list_of_employees = hr.get_hr_table_from_file()
-    employee_ID = view.get_input("Please, enter the employee's ID number: ")
     employee_data = hr.HEADERS[1:]
     ID_index = 0
     found_ID = False
 
     while not found_ID:
+        employee_ID = view.get_input("Please, enter the employee's ID number: ")
         for employee in list_of_employees:
             if employee[ID_index] == employee_ID:
                 employee[1:] = view.get_inputs(employee_data)
@@ -41,8 +41,10 @@ def update_employee():
                 break
         
         if not found_ID:
-            user_input = input("The ID provided matches no employee. Do you want to enter a different ID? (y/n): ")
-            if user_input.lower in ['n', 'no']:
+            user_input = ""
+            while user_input.lower() not in ['n', 'no', 'y', 'yes']:
+                user_input = input("The ID provided matches no employee. Do you want to enter a different ID? (y/n): ")
+            if user_input.lower() in ['n', 'no']:
                 found_ID = True
 
     hr.write_hr_table_to_file(list_of_employees)
