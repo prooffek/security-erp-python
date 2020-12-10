@@ -12,3 +12,14 @@ from model import data_manager, util
 
 DATAFILE = "model/hr/hr.csv"
 HEADERS = ["Id", "Name", "Date of birth", "Department", "Clearance"]
+
+def get_hr_table_from_file():
+    table = [HEADERS]
+
+    [table.append(row) for row in data_manager.read_table_from_file(DATAFILE)]
+
+    return table
+
+def write_hr_table_to_file(table):
+
+    data_manager.write_table_to_file(DATAFILE, table)
