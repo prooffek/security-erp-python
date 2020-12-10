@@ -3,7 +3,11 @@ from view import terminal as view
 
 
 def list_employees():
-    view.print_error_message("Not implemented yet.")
+    table = hr.get_hr_table_from_file()
+    print("List of Emplyees\n")
+    view.print_table(table)
+    
+    #view.print_error_message("Not implemented yet.")
 
 
 def add_employee():

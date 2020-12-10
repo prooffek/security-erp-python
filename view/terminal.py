@@ -48,6 +48,7 @@ def print_general_results(result, label):
         last_key = list(result.keys())[-1]
         [print(f"{key}: {value}") if key == last_key else print(f"{key}: {value}", end = "; ") for key, value in result.items()]
 
+    input("Press ENTER to return to MAIN MENU ")
 
 # /--------------------------------\
 # |   id   |   product  |   type   |
@@ -73,7 +74,7 @@ def print_table(table):
 
     print(display_table)
 
-
+    input("Press ENTER to return to MAIN MENU ")
 
 def get_input(label):
     """Gets single string input from the user.
@@ -81,7 +82,7 @@ def get_input(label):
     Args:
         label: str - the label before the user prompt
     """
-    pass
+    return input(label)
 
 
 def get_inputs(labels):
