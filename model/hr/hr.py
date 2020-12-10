@@ -22,4 +22,4 @@ def get_hr_table_from_file():
 
 def write_hr_table_to_file(table):
 
-    data_manager.write_table_to_file(DATAFILE, table)
+    data_manager.write_table_to_file(DATAFILE, table[1:])

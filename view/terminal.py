@@ -93,7 +93,7 @@ def get_inputs(labels):
     """
     inputs_user = []
 
-    for label_index in range(labels):
+    for label_index in range(len(labels)):
         user_input = input(labels[label_index])
         inputs_user.append(user_input)
     

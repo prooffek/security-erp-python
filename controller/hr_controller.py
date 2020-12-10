@@ -1,3 +1,4 @@
+from model import util
 from model.hr import hr
 from view import terminal as view
 
@@ -11,7 +12,18 @@ def list_employees():
 
 
 def add_employee():
-    view.print_error_message("Not implemented yet.")
+    table = hr.get_hr_table_from_file()
+    options = hr.HEADERS[1:]
+    continue_adding = "y"
+
+    while continue_adding.lower() in ["y", "yes"]:
+        new_employee = [util.generate_id()] + view.get_inputs(options)
+        table.append(new_employee)
+        continue_adding = input("Do you want to add another employee? (y/n): ")
+
+    hr.write_hr_table_to_file(table)
+
+    #view.print_error_message("Not implemented yet.")
 
 
 def update_employee():
