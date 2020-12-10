@@ -19,8 +19,17 @@ def delete_customer():
 
 
 def get_subscribed_emails():
-    
-    view.print_error_message("Not implemented yet.")
+    table = crm.get_hr_table_from_file()
+    subscribed_emails = []
+    subscribed = [1, "1"]
+    email_index = crm.HEADERS.index("email")
+    subscr_index = crm.HEADERS.index("subscribed")
+
+    [subscribed_emails.append(person[email_index]) for person in table if person[subscr_index] in subscribed]
+
+    return subscribed_emails
+
+    #view.print_error_message("Not implemented yet.")
 
 
 def run_operation(option):
