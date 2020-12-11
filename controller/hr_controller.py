@@ -5,8 +5,9 @@ from view import terminal as view
 
 def list_employees():
     list_of_employees = hr.get_hr_table_from_file()
-    print("List of Emplyees\n")
+    view.print_message("List of Emplyees\n")
     view.print_table(list_of_employees)
+    view.press_enter()
     
     #view.print_error_message("Not implemented yet.")
 
@@ -19,12 +20,13 @@ def add_employee():
     while continue_adding.lower() in ["y", "yes"]:
         new_employee = [util.generate_id()] + view.get_inputs(employee_data)
         list_of_employees.append(new_employee)
-        continue_adding = input("Do you want to add another employee? (y/n): ")
-
+        continue_adding = view.get_input("Do you want to add another employee? (y/n): ")
+    
     hr.write_hr_table_to_file(list_of_employees)
-
+    view.print_message("A new employee has been added")
+    
     #view.print_error_message("Not implemented yet.")
-
+    
 
 def update_employee():
     list_of_employees = hr.get_hr_table_from_file()
@@ -43,7 +45,7 @@ def update_employee():
         if not found_ID:
             user_input = ""
             while user_input.lower() not in ['n', 'no', 'y', 'yes']:
-                user_input = input("The ID provided matches no employee. Do you want to enter a different ID? (y/n): ")
+                user_input = view.get_input("The ID provided matches no employee. Do you want to enter a different ID? (y/n): ")
             if user_input.lower() in ['n', 'no']:
                 found_ID = True
 
@@ -53,7 +55,28 @@ def update_employee():
 
 
 def delete_employee():
-    view.print_error_message("Not implemented yet.")
+    list_of_employees = hr.get_hr_table_from_file()
+    view.print_table(list_of_employees)
+    found_iD = False
+    ID_index = 0
+
+    while not found_iD:
+        employee_id = view.get_input("Please, enter the employee's ID number: ")
+        for employee in list_of_employees:
+            if employee[ID_index] == employee_id:
+                list_of_employees.remove(employee)
+                found_iD = True
+        if not found_iD:
+            view.print_error_message("The ID provided matches no employee.")
+            user_input = view.get_input("Do you want to enter a different ID? (y/n): ")
+            if user_input.lower() in ["n", "no"]:
+                found_iD = True
+
+    hr.write_hr_table_to_file(list_of_employees)
+    view.print_message(f"Employee with id {employee_id} has been deleted.")
+    view.press_enter()
+
+    # view.print_error_message("Not implemented yet.")
 
 
 def get_oldest_and_youngest():

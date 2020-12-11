@@ -1,6 +1,12 @@
 import os
 from prettytable import PrettyTable
 
+
+def press_enter():
+
+    input("Press ENTER to return to MAIN MENU ")
+
+
 def print_menu(title, list_options):
     """Prints options in standard menu format like this:
 
@@ -20,7 +26,6 @@ def print_menu(title, list_options):
 
     for option_index in range(len(list_options)):
         print(f"  ({option_index}) {list_options[option_index]}")
-
 
 
 def print_message(message):
@@ -48,7 +53,7 @@ def print_general_results(result, label):
         last_key = list(result.keys())[-1]
         [print(f"{key}: {value}") if key == last_key else print(f"{key}: {value}", end = "; ") for key, value in result.items()]
 
-    input("Press ENTER to return to MAIN MENU ")
+    
 
 # /--------------------------------\
 # |   id   |   product  |   type   |
@@ -57,6 +62,8 @@ def print_general_results(result, label):
 # |--------|------------|----------|
 # |   1    | Sidewinder | missile  |
 # \-----------------------------------/
+
+
 def print_table(table):
     """Prints tabular data like above.
 
@@ -74,7 +81,6 @@ def print_table(table):
 
     print(display_table)
 
-    input("Press ENTER to return to MAIN MENU ")
 
 def get_input(label):
     """Gets single string input from the user.
