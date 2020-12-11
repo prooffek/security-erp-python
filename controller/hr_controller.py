@@ -112,7 +112,20 @@ def next_birthdays():
 
 
 def count_employees_with_clearance():
-    view.print_error_message("Not implemented yet.")
+    list_of_employees = hr.get_hr_table_from_file()
+    clearance_index = hr.HEADERS.index("Clearance")
+    num_of_employees = 0
+
+    clearance = view.get_input("Specify the clearance level: ")
+
+    for employee in list_of_employees[1:]:
+        if int(employee[clearance_index]) >= int(clearance):
+            num_of_employees += 1
+
+    view.print_general_results(num_of_employees, f"The number of employees with at least clearance level {clearance} is")
+    view.press_enter()
+
+    #view.print_error_message("Not implemented yet.")
 
 
 def count_employees_per_department():
