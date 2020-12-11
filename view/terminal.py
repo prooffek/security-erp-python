@@ -14,7 +14,7 @@ def print_menu(title, list_options):
         title (str): the title of the menu (first row)
         list_options (list): list of the menu options (listed starting from 1, 0th element goes to the end)
     """
-    os.system("cls | clear")
+    os.system('cls' if os.name == 'nt' else 'clear')
 
     print(f"{title}:\n")
 
