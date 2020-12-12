@@ -76,11 +76,43 @@ def delete_transaction():
 
 
 def get_biggest_revenue_transaction():
-    view.print_error_message("Not implemented yet.")
+     view.print_error_message("Not implemented yet.")
 
 
 def get_biggest_revenue_product():
-    view.print_error_message("Not implemented yet.")
+    list_of_transactions = sales.read_table()
+    price_index = sales.HEADERS.index("Price")
+    name_index = sales.HEADERS.index("Product")
+    first_product = list_of_transactions[1][name_index]
+    product_revenue_dict = {}
+
+    for transaction in list_of_transactions[1:]:
+        if transaction[name_index] not in product_revenue_dict:
+            product_revenue_dict[transaction[name_index]] = float(transaction[price_index])
+        else:
+            product_revenue_dict[transaction[name_index]] += float(transaction[price_index])
+    
+    biggest_revenue = product_revenue_dict[first_product]
+    product_with_biggest_revenue = first_product
+    
+    for key, value in product_revenue_dict.items():
+        if value > biggest_revenue:
+            biggest_revenue = value
+            product_with_biggest_revenue = key
+
+    table = [sales.HEADERS]
+
+    for transaction in list_of_transactions[1:]:
+        if transaction[name_index] == product_with_biggest_revenue:
+            table.append(transaction)
+    
+    view.print_message(f"The product with the biggest revenue is: {product_with_biggest_revenue}\nThe revenue of the product is: {product_revenue_dict[product_with_biggest_revenue]}")
+    print()
+    view.print_table(table)
+    
+    view.press_enter()
+
+    #view.print_error_message("Not implemented yet.")
 
 
 def count_transactions_between():
