@@ -5,12 +5,10 @@ from datetime import datetime, date, timedelta
 
 
 def list_employees():
-    list_of_employees = hr.get_hr_table_from_file()
+
     view.print_message("List of Emplyees\n")
-    view.print_table(list_of_employees)
-    view.press_enter()
-    
-    #view.print_error_message("Not implemented yet.")
+    view.print_table(hr.get_hr_table_from_file())
+    view.get_input("Press ENTER to return to MAIN MENU")
 
 
 def add_employee():
@@ -22,12 +20,11 @@ def add_employee():
         new_employee = [util.generate_id()] + view.get_inputs(employee_data)
         list_of_employees.append(new_employee)
         continue_adding = view.get_input("Do you want to add another employee? (y/n): ")
-    
+
     hr.write_hr_table_to_file(list_of_employees)
     view.print_message("A new employee has been added")
-    
-    #view.print_error_message("Not implemented yet.")
-    
+    view.get_input("Press ENTER to return to MAIN MENU")
+
 
 def update_employee():
     list_of_employees = hr.get_hr_table_from_file()
@@ -42,7 +39,7 @@ def update_employee():
                 employee[1:] = view.get_inputs(employee_data)
                 found_ID = True
                 break
-        
+
         if not found_ID:
             user_input = ""
             while user_input.lower() not in ['n', 'no', 'y', 'yes']:
@@ -51,8 +48,7 @@ def update_employee():
                 found_ID = True
 
     hr.write_hr_table_to_file(list_of_employees)
-
-    #view.print_error_message("Not implemented yet.")
+    view.get_input("Press ENTER to return to MAIN MENU")
 
 
 def delete_employee():
@@ -75,9 +71,7 @@ def delete_employee():
                 found_iD = True
 
     hr.write_hr_table_to_file(list_of_employees)
-    view.press_enter()
-
-    # view.print_error_message("Not implemented yet.")
+    view.get_input("Press ENTER to return to MAIN MENU")
 
 
 def get_oldest_and_youngest():
@@ -102,9 +96,8 @@ def get_oldest_and_youngest():
             youngest = list_of_employees[employee_index]
 
     view.print_general_results(oldest_and_youngest, "Oldest and youngest employees: ")
-    view.press_enter()
+    view.get_input("Press ENTER to return to MAIN MENU")
 
-    # view.print_error_message("Not implemented yet.")
 
 def get_average_age():
     list_of_employees = hr.get_hr_table_from_file()
@@ -112,7 +105,7 @@ def get_average_age():
     separator = "-"
     date_of_birth_index = hr.HEADERS.index("Date of birth")
     current_year, current_month, current_day = str(date.today()).split(separator)
-    
+
     age = 0
     for employee in list_without_header:
         date_of_birth = employee[date_of_birth_index]
@@ -124,9 +117,7 @@ def get_average_age():
             age += int(current_year) - int(birth_year)
 
     view.print_general_results(age/len(list_without_header), "Employees' avarage age is")
-    view.press_enter()
-
-    #view.print_error_message("Not implemented yet.")
+    view.get_input("Press ENTER to return to MAIN MENU")
 
 
 def next_birthdays():
@@ -146,9 +137,7 @@ def next_birthdays():
         view.print_message("No employee has a birthday in the next two weeks.")
     else:
         view.print_general_results(names, "Employees with birthdays in the next two weeks")
-    view.press_enter()
-
-    # view.print_error_message("Not implemented yet.")
+    view.get_input("Press ENTER to return to MAIN MENU")
 
 
 def count_employees_with_clearance():
@@ -161,11 +150,9 @@ def count_employees_with_clearance():
     for employee in list_of_employees[1:]:
         if int(employee[clearance_index]) >= int(clearance):
             num_of_employees += 1
-    
-    view.print_general_results(num_of_employees, f"The number of employees with at least clearance level {clearance} is")
-    view.press_enter()
 
-    #view.print_error_message("Not implemented yet.")
+    view.print_general_results(num_of_employees, f"The number of employees with at least clearance level {clearance} is")
+    view.get_input("Press ENTER to return to MAIN MENU")
 
 
 def count_employees_per_department():
@@ -180,9 +167,7 @@ def count_employees_per_department():
             employees_department_count[employee[department_index]] += 1
 
     view.print_general_results(employees_department_count, f"The number of employees per department is:")
-    print(), view.press_enter()
-
-    #view.print_error_message("Not implemented yet.")
+    view.get_input("Press ENTER to return to MAIN MENU")
 
 
 def run_operation(option):

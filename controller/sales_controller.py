@@ -1,14 +1,11 @@
 from model.sales import sales
 from view import terminal as view
 from model import util
-from datetime import datetime
 
 
 def list_transactions():
     view.print_table(sales.read_table())
-    view.press_enter()
-
-    #view.print_error_message("Not implemented yet.")
+    view.get_input("Press ENTER to return to MAIN MENU")
 
 
 def add_transaction():
@@ -26,7 +23,7 @@ def add_transaction():
     
     sales.write_table(list_of_transactions)
     view.print_message("A new employee has been added")
-    # view.print_error_message("Not implemented yet.")
+    view.get_input("Press ENTER to return to MAIN MENU")
 
 
 def update_transaction():
@@ -50,6 +47,7 @@ def update_transaction():
                 found_ID = True
 
     sales.write_table(list_of_transactions)
+    view.get_input("Press ENTER to return to MAIN MENU")
 
 
 def delete_transaction():
@@ -72,8 +70,7 @@ def delete_transaction():
                 found_ID = True
 
     sales.write_table(list_of_transactions)
-    view.press_enter()
-    # view.print_error_message("Not implemented yet.")
+    view.get_input("Press ENTER to return to MAIN MENU")
 
 
 def get_biggest_revenue_transaction():
@@ -87,8 +84,7 @@ def get_biggest_revenue_transaction():
     table = [list_of_transactions[0], biggest_revenue_transaction]
     view.print_message("The transaction that made the biggest revenue")
     view.print_table(table)
-    view.press_enter()
-    # view.print_error_message("Not implemented yet.")
+    view.get_input("Press ENTER to return to MAIN MENU")
 
 
 def get_biggest_revenue_product():
@@ -122,9 +118,7 @@ def get_biggest_revenue_product():
     print()
     view.print_table(table)
     
-    view.press_enter()
-
-    #view.print_error_message("Not implemented yet.")
+    view.get_input("Press ENTER to return to MAIN MENU")
 
 
 def count_transactions_between():
@@ -148,7 +142,7 @@ def count_transactions_between():
                     number_of_transaction += 1
 
     view.print_general_results(int(number_of_transaction), f"Number ofnumber of transactions between {beginning_date} and {final_date} is")
-    view.press_enter()
+    view.get_input("Press ENTER to return to MAIN MENU")
 
 
 def sum_transactions_between():
@@ -182,8 +176,7 @@ def sum_transactions_between():
 
     view.print_general_results(transaction_sum, f"The sum of trunsactions completed between {beginning_date} and {final_date} is")
     view.print_table(table)
-    view.press_enter()
-    #view.print_error_message("Not implemented yet.")
+    view.get_input("Press ENTER to return to MAIN MENU")
 
 
 def run_operation(option):

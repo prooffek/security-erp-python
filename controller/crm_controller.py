@@ -1,14 +1,12 @@
 from model.crm import crm
+from model import util
 from view import terminal as view
 
 
 def list_customers():
-    list_of_customers = crm.get_crm_table_from_file()
-    view.print_message("List of Customers")
-    view.print_table(list_of_customers)
-    view.press_enter()
-
-    # view.print_error_message("Not implemented yet.")
+    
+    view.print_table(crm.get_crm_table_from_file())
+    view.get_input("Press ENTER to return to MAIN MENU")
 
 
 def add_customer():
@@ -22,13 +20,13 @@ def add_customer():
         continue_add = view.get_input('Do you want to add another customer press "Y"')
     crm.write_crm_table_to_file(list_of_customers)
     view.print_message("Succesfully added new Customer")
-    # view.print_error_message("Not implemented yet.")
+    view.get_input("Press ENTER to return to MAIN MENU")
 
 
 def update_customer():
     list_customers = crm.get_crm_table_from_file()
     customer_data = crm.HEADERS[1:]
-    ID_index = 0
+    ID_index = crm.HEADERS.index("Id")
     found_ID = False
 
     while not found_ID:
@@ -38,16 +36,16 @@ def update_customer():
                 customer[1:] = view.get_inputs(customer_data)
                 found_ID = True
                 break
-        
+
         if not found_ID:
             user_input = ""
             while user_input.lower() not in ["n", "no", "y", "yes"]:
                 user_input = view.get_input("Provided ID do not maches. Do you want to make correction")
             if user_input.lower() in ["n", "no"]:
                 found_ID = True
-    
-    crm.write_crm_table_to_file(list_of_customers)
-    # view.print_error_message("Not implemented yet.")
+
+    crm.write_crm_table_to_file(list_customers)
+    view.get_input("Press ENTER to return to MAIN MENU")
 
 
 def delete_customer():
@@ -56,21 +54,20 @@ def delete_customer():
     ID_index = 0
     found_ID = False
 
-    while not found_iD:
+    while not found_ID:
         customer_id = view.get_input("Provide ID to delete customer")
         for customer in list_of_customers:
             if customer[ID_index] == customer_id:
                 list_of_customers.remove(customer)
-                found_iD = True
-        if not found_iD:
+                found_ID = True
+        if not found_ID:
             user_input = view.get_input("Provided id do not matches. Do you want to make correction")
             if user_input.lower() in ["n", "no"]:
-                found_iD = True
+                found_ID = True
 
     crm.write_crm_table_to_file(list_of_customers)
     view.print_message(f"Customer with id {customer_id} has been deleted.")
-    view.press_enter()
-    # view.print_error_message("Not implemented yet.")
+    view.get_input("Press ENTER to return to MAIN MENU")
 
 
 def get_subscribed_emails():
@@ -83,9 +80,7 @@ def get_subscribed_emails():
     [subscribed_emails.append(person[email_index]) for person in table if person[subscr_index] in subscribed]
 
     view.print_general_results(subscribed_emails, "The subscribed emails")
-    view.press_enter()
-
-    #view.print_error_message("Not implemented yet.")
+    view.get_input("Press ENTER to return to MAIN MENU")
 
 
 def run_operation(option):
