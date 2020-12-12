@@ -1,5 +1,6 @@
 from model.sales import sales
 from view import terminal as view
+from model import util
 
 
 def list_transactions():
@@ -10,6 +11,20 @@ def list_transactions():
 
 
 def add_transaction():
+    list_of_transactions = sales.read_table()
+    transactions_data = sales.HEADERS[1:]
+    continue_adding = "y"
+
+    while continue_adding.lower() in ["y", "yes"]:
+        new_transaction = [util.generate_id()] + view.get_inputs(transactions_data)
+        print(new_transaction), 
+        correct = view.get_input("Are these data correct? (y/n): ")
+        if correct.lower() in ['y', 'yes']:
+            list_of_transactions.append(new_transaction)
+            continue_adding = view.get_input("Do you want to add another transaction? (y/n): ")
+    
+    sales.write_table(list_of_transactions)
+    view.print_message("A new employee has been added")
     view.print_error_message("Not implemented yet.")
 
 
