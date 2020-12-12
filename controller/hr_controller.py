@@ -2,6 +2,7 @@ from model import util
 from model.hr import hr
 from view import terminal as view
 from datetime import datetime
+from datetime import date
 
 
 def list_employees():
@@ -103,7 +104,26 @@ def get_oldest_and_youngest():
     # view.print_error_message("Not implemented yet.")
 
 def get_average_age():
-    view.print_error_message("Not implemented yet.")
+    list_of_employees = hr.get_hr_table_from_file()
+    list_without_header = list_of_employees[1:]
+    separator = "-"
+    date_of_birth_index = hr.HEADERS.index("Date of birth")
+    current_year, current_month, current_day = str(date.today()).split(separator)
+    
+    age = 0
+    for employee in list_without_header:
+        date_of_birth = employee[date_of_birth_index]
+        birth_year, birth_month, birth_day = str(date.fromisoformat(date_of_birth)).split(separator)
+
+        if int(birth_month) >= int(current_month) and int(birth_day) > int(current_day):
+            age += int(current_year) - int(birth_year) - 1
+        else:
+            age += int(current_year) - int(birth_year)
+
+    view.print_general_results(age/len(list_without_header), "Employees' avarage age is")
+    view.press_enter()
+
+    #view.print_error_message("Not implemented yet.")
 
 
 def next_birthdays():
@@ -111,7 +131,20 @@ def next_birthdays():
 
 
 def count_employees_with_clearance():
-    view.print_error_message("Not implemented yet.")
+    list_of_employees = hr.get_hr_table_from_file()
+    clearance_index = hr.HEADERS.index("Clearance")
+    num_of_employees = 0
+
+    clearance = view.get_input("Specify the clearance level: ")
+
+    for employee in list_of_employees[1:]:
+        if int(employee[clearance_index]) >= int(clearance):
+            num_of_employees += 1
+
+    view.print_general_results(num_of_employees, f"The number of employees with at least clearance level {clearance} is")
+    view.press_enter()
+
+    #view.print_error_message("Not implemented yet.")
 
 
 def count_employees_per_department():
