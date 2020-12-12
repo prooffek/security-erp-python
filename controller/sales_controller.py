@@ -1,6 +1,7 @@
 from model.sales import sales
 from view import terminal as view
 from model import util
+from datetime import datetime
 
 
 def list_transactions():
@@ -57,7 +58,7 @@ def delete_transaction():
     found_ID = False
     ID_index = sales.HEADERS.index("Id")
 
-    while not found_iD:
+    while not found_ID:
         transaction_id = view.get_input("Please, enter the transaction ID number: ")
         for transaction in list_of_transactions[1:]:
             if transaction[ID_index] == transaction_id:
@@ -80,7 +81,6 @@ def get_biggest_revenue_transaction():
     price_index = sales.HEADERS.index("Price")
     biggest_revenue_transaction = list_of_transactions[1]
 
-
     for transaction in list_of_transactions[1:]:
         if transaction[price_index] > biggest_revenue_transaction[price_index]:
             biggest_revenue_transaction = transaction
@@ -96,6 +96,7 @@ def get_biggest_revenue_product():
 
 
 def count_transactions_between():
+    
     view.print_error_message("Not implemented yet.")
 
 
