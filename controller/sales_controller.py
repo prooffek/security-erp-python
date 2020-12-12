@@ -132,7 +132,38 @@ def count_transactions_between():
 
 
 def sum_transactions_between():
-    view.print_error_message("Not implemented yet.")
+    list_of_transactions = sales.read_table()
+    date_index = sales.HEADERS.index("Date")
+    price_index = sales.HEADERS.index("Price")
+    separator = "-"
+    dates = ["baginning date", "final date"]
+
+    print("Please provide the baginning and final dates.\n") #ask the user about the range of transactions dates
+    beginning_date, final_date = view.get_inputs(dates)
+    beginning_year, beginning_month, beginning_day = beginning_date.split(separator)
+    final_year, final_month, final_day = final_date.split(separator)
+
+    transaction_sum = 0
+    table = [sales.HEADERS]
+
+    for transaction in list_of_transactions[1:]: #Comparing the transaction date with the dates provided by the user
+        value = False
+        transaction_year, transaction_month, transaction_day = transaction[date_index].split(separator)
+        if int(transaction_year) > int(beginning_year) and int(transaction_year) < int(final_year):
+            value = True
+        elif int(transaction_year) == int(beginning_year) and int(transaction_month) >= int(beginning_month) and int(transaction_day) >= int(beginning_day) and int(transaction_year) <= int(final_year) and int(transaction_month) <= int(final_month) and int(transaction_day) <= int(final_day):
+            value = True
+        elif int(transaction_year) >= int(beginning_year) and int(transaction_month) >= int(beginning_month) and int(transaction_day) >= int(beginning_day) and int(transaction_year) == int(final_year) and int(transaction_month) <= int(final_month) and int(transaction_day) <= int(final_day):
+            value = True
+        
+        if value:
+            transaction_sum += float(transaction[price_index])
+            table.append(transaction)
+
+    view.print_general_results(transaction_sum, f"The sum of trunsactions completed between {beginning_date} and {final_date} is")
+    view.print_table(table)
+    view.press_enter()
+    #view.print_error_message("Not implemented yet.")
 
 
 def run_operation(option):
