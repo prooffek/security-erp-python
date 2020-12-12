@@ -84,19 +84,23 @@ def delete_employee():
 def get_oldest_and_youngest():
 
     list_of_employees = hr.get_hr_table_from_file()
-    birth_date_id = 2
-    oldest_and_youngest = {"Oldest": list_of_employees[1], "Youngest": list_of_employees[1]}
-    
+    birth_date_index = 2
+    name_index = 1
+    oldest = list_of_employees[1]
+    youngest = list_of_employees[1]
+    oldest_and_youngest = {"Oldest": oldest[name_index], "Youngest": youngest[name_index]}
 
     for employee_index in range(1, len(list_of_employees)):
-        employee_date_birth = datetime.strptime(list_of_employees[employee_index][birth_date_id], "%Y-%m-%d")
-        oldest_date_birth = datetime.strptime(oldest_and_youngest.get("Oldest")[birth_date_id], "%Y-%m-%d")
-        youngest_date_birth = datetime.strptime(oldest_and_youngest.get("Youngest")[birth_date_id], "%Y-%m-%d")
+        employee_date_birth = datetime.strptime(list_of_employees[employee_index][birth_date_index], "%Y-%m-%d")
+        oldest_date_birth = datetime.strptime(oldest[birth_date_index], "%Y-%m-%d")
+        youngest_date_birth = datetime.strptime(youngest[birth_date_index], "%Y-%m-%d")
 
         if employee_date_birth < oldest_date_birth:
-            oldest_and_youngest["Oldest"] = list_of_employees[employee_index]
+            oldest_and_youngest["Oldest"] = list_of_employees[employee_index][name_index]
+            oldest = list_of_employees[employee_index]
         elif employee_date_birth > youngest_date_birth:
-            oldest_and_youngest["Youngest"] = list_of_employees[employee_index]
+            oldest_and_youngest["Youngest"] = list_of_employees[employee_index][name_index]
+            youngest = list_of_employees[employee_index]
 
     view.print_general_results(oldest_and_youngest, "Oldest and youngest employees: ")
     view.press_enter()
