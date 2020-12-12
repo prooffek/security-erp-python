@@ -19,7 +19,7 @@ def add_customer():
     while continue_add.lower() in ["y", "yes"]:
         new_customer = [util.generate_id()] + view.get_inputs[customer_data]
         list_of_customers.append(new_customer)
-        continue_add = view.get_input("Do you want to add another customer press "Y"")
+        continue_add = view.get_input('Do you want to add another customer press "Y"')
     crm.write_crm_table_to_file(list_of_customers)
     view.print_message("Succesfully added new Customer")
     # view.print_error_message("Not implemented yet.")
@@ -82,7 +82,8 @@ def get_subscribed_emails():
 
     [subscribed_emails.append(person[email_index]) for person in table if person[subscr_index] in subscribed]
 
-    return subscribed_emails
+    view.print_general_results(subscribed_emails, "The subscribed emails")
+    view.press_enter()
 
     #view.print_error_message("Not implemented yet.")
 

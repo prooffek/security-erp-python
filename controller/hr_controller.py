@@ -148,7 +148,20 @@ def count_employees_with_clearance():
 
 
 def count_employees_per_department():
-    view.print_error_message("Not implemented yet.")
+    list_of_employees = hr.get_hr_table_from_file()
+    department_index = hr.HEADERS.index("Department")
+    employees_department_count = {}
+
+    for employee in list_of_employees[1:]:
+        if employee[department_index] not in employees_department_count:
+            employees_department_count[employee[department_index]] = 1
+        else:
+            employees_department_count[employee[department_index]] += 1
+
+    view.print_general_results(employees_department_count, f"The number of employees per department is:")
+    print(), view.press_enter()
+
+    #view.print_error_message("Not implemented yet.")
 
 
 def run_operation(option):
