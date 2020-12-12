@@ -1,6 +1,7 @@
 from model import util
 from model.hr import hr
 from view import terminal as view
+from datetime import datetime
 
 
 def list_employees():
@@ -80,8 +81,26 @@ def delete_employee():
 
 
 def get_oldest_and_youngest():
-    view.print_error_message("Not implemented yet.")
 
+    list_of_employees = hr.get_hr_table_from_file()
+    birth_date_id = 2
+    oldest_and_youngest = {"Oldest": list_of_employees[1], "Youngest": list_of_employees[1]}
+    
+
+    for employee_index in range(1, len(list_of_employees)):
+        employee_date_birth = datetime.strptime(list_of_employees[employee_index][birth_date_id], "%Y-%m-%d")
+        oldest_date_birth = datetime.strptime(oldest_and_youngest.get("Oldest")[birth_date_id], "%Y-%m-%d")
+        youngest_date_birth = datetime.strptime(oldest_and_youngest.get("Youngest")[birth_date_id], "%Y-%m-%d")
+
+        if employee_date_birth < oldest_date_birth:
+            oldest_and_youngest["Oldest"] = list_of_employees[employee_index]
+        elif employee_date_birth > youngest_date_birth:
+            oldest_and_youngest["Youngest"] = list_of_employees[employee_index]
+
+    view.print_general_results(oldest_and_youngest, "Oldest and youngest employees: ")
+    view.press_enter()
+
+    # view.print_error_message("Not implemented yet.")
 
 def get_average_age():
     view.print_error_message("Not implemented yet.")
