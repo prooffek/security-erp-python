@@ -3,7 +3,10 @@ from view import terminal as view
 
 
 def list_transactions():
-    view.print_error_message("Not implemented yet.")
+    view.print_table(sales.read_table())
+    view.press_enter()
+
+    #view.print_error_message("Not implemented yet.")
 
 
 def add_transaction():
