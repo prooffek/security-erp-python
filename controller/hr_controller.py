@@ -1,8 +1,7 @@
 from model import util
 from model.hr import hr
 from view import terminal as view
-from datetime import datetime
-from datetime import date
+from datetime import datetime, date, timedelta
 
 
 def list_employees():
@@ -84,8 +83,8 @@ def delete_employee():
 def get_oldest_and_youngest():
 
     list_of_employees = hr.get_hr_table_from_file()
-    birth_date_index = 2
-    name_index = 1
+    birth_date_index = hr.HEADERS.index("Date of birth")
+    name_index = hr.HEADERS.index("Name")
     oldest = list_of_employees[1]
     youngest = list_of_employees[1]
     oldest_and_youngest = {"Oldest": oldest[name_index], "Youngest": youngest[name_index]}
@@ -131,7 +130,25 @@ def get_average_age():
 
 
 def next_birthdays():
-    view.print_error_message("Not implemented yet.")
+    list_of_employees = hr.get_hr_table_from_file()
+    birth_date_index = hr.HEADERS.index("Date of birth")
+    name_index = hr.HEADERS.index("Name")
+    time_delta = 14
+    current_date = date.today()
+    next_date = current_date + timedelta(time_delta)
+    names = []
+
+    for employee_index in range(1, len(list_of_employees)):
+        date_birth_employee = datetime.strptime(list_of_employees[employee_index][birth_date_index], "%Y-%m-%d").date()
+        if date_birth_employee.strftime('%m-%d') >= current_date.strftime('%m-%d') and date_birth_employee.strftime('%m-%d') <= next_date.strftime('%m-%d'):
+            names.append(list_of_employees[employee_index][name_index])
+    if len(names) == 0:
+        view.print_message("No employee has a birthday in the next two weeks.")
+    else:
+        view.print_general_results(names, "Employees with birthdays in the next two weeks")
+    view.press_enter()
+
+    # view.print_error_message("Not implemented yet.")
 
 
 def count_employees_with_clearance():
@@ -144,7 +161,7 @@ def count_employees_with_clearance():
     for employee in list_of_employees[1:]:
         if int(employee[clearance_index]) >= int(clearance):
             num_of_employees += 1
-
+    
     view.print_general_results(num_of_employees, f"The number of employees with at least clearance level {clearance} is")
     view.press_enter()
 
