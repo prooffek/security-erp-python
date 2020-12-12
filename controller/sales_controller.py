@@ -57,7 +57,7 @@ def delete_transaction():
     found_ID = False
     ID_index = sales.HEADERS.index("Id")
 
-    while not found_iD:
+    while not found_ID:
         transaction_id = view.get_input("Please, enter the transaction ID number: ")
         for transaction in list_of_transactions[1:]:
             if transaction[ID_index] == transaction_id:
