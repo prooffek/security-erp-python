@@ -54,7 +54,7 @@ def update_transaction():
 def delete_transaction():
     list_of_transactions = sales.read_table()
     view.print_table(list_of_transactions)
-    found_iD = False
+    found_ID = False
     ID_index = sales.HEADERS.index("Id")
 
     while not found_iD:
@@ -63,12 +63,12 @@ def delete_transaction():
             if transaction[ID_index] == transaction_id:
                 list_of_transactions.remove(transaction)
                 view.print_message(f"Transaction with id {transaction_id} has been deleted.")
-                found_iD = True
-        if not found_iD:
+                found_ID = True
+        if not found_ID:
             view.print_error_message("The ID provided matches no transaction.")
             user_input = view.get_input("Do you want to enter a different ID? (y/n): ")
             if user_input.lower() in ["n", "no"]:
-                found_iD = True
+                found_ID = True
 
     sales.write_table(list_of_transactions)
     view.press_enter()
@@ -76,7 +76,17 @@ def delete_transaction():
 
 
 def get_biggest_revenue_transaction():
-    view.print_error_message("Not implemented yet.")
+    list_of_transactions = sales.read_table()
+    price_index = sales.HEADERS.index("Price")
+    biggest_revenue_transaction = list_of_transactions[1]
+
+    for transaction in list_of_transactions[1:]:
+        if transaction[price_index] > biggest_revenue_transaction[price_index]:
+            biggest_revenue_transaction = transaction
+    
+    view.print_general_results(biggest_revenue_transaction, "The transaction that made the biggest revenue")
+    view.press_enter()
+    # view.print_error_message("Not implemented yet.")
 
 
 def get_biggest_revenue_product():
