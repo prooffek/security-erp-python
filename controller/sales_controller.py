@@ -49,11 +49,30 @@ def update_transaction():
                 found_ID = True
 
     sales.write_table(list_of_transactions)
-      
 
 
 def delete_transaction():
-    view.print_error_message("Not implemented yet.")
+    list_of_transactions = sales.read_table()
+    view.print_table(list_of_transactions)
+    found_iD = False
+    ID_index = sales.HEADERS.index("Id")
+
+    while not found_iD:
+        transaction_id = view.get_input("Please, enter the transaction ID number: ")
+        for transaction in list_of_transactions[1:]:
+            if transaction[ID_index] == transaction_id:
+                list_of_transactions.remove(transaction)
+                view.print_message(f"Transaction with id {transaction_id} has been deleted.")
+                found_iD = True
+        if not found_iD:
+            view.print_error_message("The ID provided matches no transaction.")
+            user_input = view.get_input("Do you want to enter a different ID? (y/n): ")
+            if user_input.lower() in ["n", "no"]:
+                found_iD = True
+
+    sales.write_table(list_of_transactions)
+    view.press_enter()
+    # view.print_error_message("Not implemented yet.")
 
 
 def get_biggest_revenue_transaction():
