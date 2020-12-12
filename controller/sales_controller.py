@@ -80,11 +80,13 @@ def get_biggest_revenue_transaction():
     price_index = sales.HEADERS.index("Price")
     biggest_revenue_transaction = list_of_transactions[1]
 
+
     for transaction in list_of_transactions[1:]:
         if transaction[price_index] > biggest_revenue_transaction[price_index]:
             biggest_revenue_transaction = transaction
-    
-    view.print_general_results(biggest_revenue_transaction, "The transaction that made the biggest revenue")
+    table = [list_of_transactions[0], biggest_revenue_transaction]
+    view.print_message("The transaction that made the biggest revenue")
+    view.print_table(table)
     view.press_enter()
     # view.print_error_message("Not implemented yet.")
 
