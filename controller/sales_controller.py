@@ -25,11 +25,31 @@ def add_transaction():
     
     sales.write_table(list_of_transactions)
     view.print_message("A new employee has been added")
-    view.print_error_message("Not implemented yet.")
+    # view.print_error_message("Not implemented yet.")
 
 
 def update_transaction():
-    view.print_error_message("Not implemented yet.")
+    list_of_transactions = sales.read_table()
+    view.print_table(list_of_transactions)
+    id_transaction_index = sales.HEADERS.index("Id")
+    transaction_data = sales.HEADERS[1:]
+    found_ID = False
+
+    while not found_ID:
+        transaction_id = view.get_input("Enter the transaction ID: ")
+        for transaction in list_of_transactions[1:]:
+            if transaction_id == transaction[id_transaction_index]:
+                transaction[1:] = view.get_inputs(transaction_data)
+                view.print_message("Transaction has been updated.")
+                found_ID = True
+        if not found_ID:
+            view.print_error_message("The ID provided matches no transaction.")
+            user_input = view.get_input("Do you want to enter a different ID? (y/n): ")
+            if user_input.lower() in ["n", "no"]:
+                found_ID = True
+
+    sales.write_table(list_of_transactions)
+      
 
 
 def delete_transaction():

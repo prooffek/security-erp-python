@@ -32,7 +32,7 @@ def add_employee():
 def update_employee():
     list_of_employees = hr.get_hr_table_from_file()
     employee_data = hr.HEADERS[1:]
-    ID_index = 0
+    ID_index = hr.HEADERS.index("Id")
     found_ID = False
 
     while not found_ID:
@@ -66,6 +66,7 @@ def delete_employee():
         for employee in list_of_employees:
             if employee[ID_index] == employee_id:
                 list_of_employees.remove(employee)
+                view.print_message(f"Employee with id {employee_id} has been deleted.")
                 found_iD = True
         if not found_iD:
             view.print_error_message("The ID provided matches no employee.")
@@ -74,7 +75,6 @@ def delete_employee():
                 found_iD = True
 
     hr.write_hr_table_to_file(list_of_employees)
-    view.print_message(f"Employee with id {employee_id} has been deleted.")
     view.press_enter()
 
     # view.print_error_message("Not implemented yet.")

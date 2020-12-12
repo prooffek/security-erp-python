@@ -24,5 +24,5 @@ def read_table():
 
 def write_table(table):
 
-    data_manager.write_table_to_file(DATAFILE, table[1: ])
+    data_manager.write_table_to_file(DATAFILE, table[1:])
     
