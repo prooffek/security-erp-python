@@ -1,7 +1,6 @@
 from model.sales import sales
 from view import terminal as view
 from model import util
-import time
 
 
 def list_transactions():
@@ -16,12 +15,12 @@ def add_transaction():
 
     while continue_adding.lower() in ["y", "yes"]:
         new_transaction = [util.generate_id()] + view.get_inputs(transactions_data)
-        print(new_transaction), 
+        print(new_transaction)
         correct = view.get_input("Are these data correct? (y/n): ")
         if correct.lower() in ['y', 'yes']:
             list_of_transactions.append(new_transaction)
             continue_adding = view.get_input("Do you want to add another transaction? (y/n): ")
-    
+
     sales.write_table(list_of_transactions)
     view.print_message("A new transaction has been added")
     view.get_input("Press ENTER to return to MAIN MENU")
@@ -99,10 +98,10 @@ def get_biggest_revenue_product():
             product_revenue_dict[transaction[name_index]] = float(transaction[price_index])
         else:
             product_revenue_dict[transaction[name_index]] += float(transaction[price_index])
-    
+
     biggest_revenue = product_revenue_dict[first_product]
     product_with_biggest_revenue = first_product
-    
+
     for key, value in product_revenue_dict.items():
         if value > biggest_revenue:
             biggest_revenue = value
@@ -113,11 +112,11 @@ def get_biggest_revenue_product():
     for transaction in list_of_transactions[1:]:
         if transaction[name_index] == product_with_biggest_revenue:
             table.append(transaction)
-    
+
     view.print_message(f"The product with the biggest revenue is: {product_with_biggest_revenue}\nThe revenue of the product is: {product_revenue_dict[product_with_biggest_revenue]}")
     print()
     view.print_table(table)
-    
+
     view.get_input("Press ENTER to return to MAIN MENU")
 
 
@@ -126,16 +125,16 @@ def count_transactions_between():
     list_of_transactions = sales.read_table()
     date_index = sales.HEADERS.index("Date")
     separator = "-"
-    dates = ["beginning date", "final date"]
+    dates = ["Beginning date", "Final date"]
 
-    view.print_message("Please provide the beginning and final dates.\n") 
+    view.print_message("Please provide the beginning and final dates.\n")
     beginning_date, final_date = view.get_inputs(dates)
-    
+
     beginning_year, beginning_month, beginning_day = beginning_date.split(separator)
     final_year, final_month, final_day = final_date.split(separator)
     number_of_transaction = 0
-    
-    for transaction in list_of_transactions[1:]: #Comparing the transaction date with the dates provided by the user
+
+    for transaction in list_of_transactions[1:]: # Comparing the transaction date with the dates provided by the user
         transaction_year, transaction_month, transaction_day = transaction[date_index].split(separator)
         if int(transaction_year) > int(beginning_year) and int(transaction_year) < int(final_year):
             number_of_transaction += 1
@@ -175,7 +174,7 @@ def sum_transactions_between():
     separator = "-"
     dates = ["beginning date", "final date"]
 
-    view.print_message("Please provide the beginning and final dates.\n") #ask the user about the range of transactions dates
+    view.print_message("Please provide the beginning and final dates.\n") # ask the user about the range of transactions dates
     beginning_date, final_date = view.get_inputs(dates)
     beginning_year, beginning_month, beginning_day = beginning_date.split(separator)
     final_year, final_month, final_day = final_date.split(separator)
@@ -183,7 +182,7 @@ def sum_transactions_between():
     transaction_sum = 0
     table = [sales.HEADERS]
 
-    for transaction in list_of_transactions[1:]: #Comparing the transaction date with the dates provided by the user
+    for transaction in list_of_transactions[1:]: # Comparing the transaction date with the dates provided by the user
         value = False
         transaction_year, transaction_month, transaction_day = transaction[date_index].split(separator)
         if int(transaction_year) > int(beginning_year) and int(transaction_year) < int(final_year):
@@ -192,7 +191,7 @@ def sum_transactions_between():
             value = True
         elif int(transaction_year) >= int(beginning_year) and int(transaction_month) >= int(beginning_month) and int(transaction_day) >= int(beginning_day) and int(transaction_year) == int(final_year) and int(transaction_month) <= int(final_month) and int(transaction_day) <= int(final_day):
             value = True
-        
+  
         if value:
             transaction_sum += float(transaction[price_index])
             table.append(transaction)

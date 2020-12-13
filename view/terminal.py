@@ -41,12 +41,12 @@ def print_general_results(result, label):
     if type(result) == int or type(result) == float:
         print(f"{label}: %.2f" % result)
     elif type(result) == list or type(result) == tuple:
-        print(f"{label}:\n  ", end = "")
-        [print(item) if item == result[-1] else print(item, end = "; ") for item in result]
+        print(f"{label}:\n  ", end="")
+        [print(item) if item == result[-1] else print(item, end="; ") for item in result]
     elif type(result) == dict:
-        print(f"{label}\n  ", end = "")
+        print(f"{label}\n  ", end="")
         last_key = list(result.keys())[-1]
-        [print(f"{key}: {value}") if key == last_key else print(f"{key}: {value}", end = "; ") for key, value in result.items()]
+        [print(f"{key}: {value}") if key == last_key else print(f"{key}: {value}", end="; ") for key, value in result.items()]
 
 
 # /--------------------------------\

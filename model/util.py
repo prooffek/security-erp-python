@@ -17,15 +17,15 @@ def generate_id(number_of_small_letters=4,
     for i in range(number_of_capital_letters):
         random_index = random.randint(0, len(capital_letters) - 1)
         random_list.append(capital_letters[random_index])
-    
+
     for i in range(number_of_small_letters):
-        random_index = random.randint(0 ,len(small_letters) - 1)
+        random_index = random.randint(0, len(small_letters) - 1)
         random_list.append(small_letters[random_index])
 
     for i in range(number_of_digits):
         random_index = random.randint(0, len(digits) - 1)
         random_list.append(digits[random_index])
-    
+
     for i in range(number_of_special_chars):
         random_index = random.randint(0, len(allowed_special_chars) - 1)
         random_list.append(allowed_special_chars[random_index])

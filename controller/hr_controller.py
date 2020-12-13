@@ -44,7 +44,8 @@ def update_employee():
         if not found_ID:
             user_input = ""
             while user_input.lower() not in ['n', 'no', 'y', 'yes']:
-                user_input = view.get_input("The ID provided matches no employee. Do you want to enter a different ID? (y/n): ")
+                view.print_message("The ID provided matches no employee.")
+                user_input = view.get_input("Do you want to enter a different ID? (y/n): ")
             if user_input.lower() in ['n', 'no']:
                 found_ID = True
 
@@ -167,7 +168,7 @@ def count_employees_per_department():
         else:
             employees_department_count[employee[department_index]] += 1
 
-    view.print_general_results(employees_department_count, f"The number of employees per department is:")
+    view.print_general_results(employees_department_count, "The number of employees per department is:")
     view.get_input("Press ENTER to return to MAIN MENU")
 
 

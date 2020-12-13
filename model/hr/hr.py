@@ -8,15 +8,15 @@ Data table structure:
     - clearance level (int): from 0 (lowest) to 7 (highest)
 """
 
-from model import data_manager, util
+from model import data_manager
 
 DATAFILE = "model/hr/hr.csv"
 HEADERS = ["Id", "Name", "Date of birth", "Department", "Clearance"]
 
 
 def get_hr_table_from_file():
-    table = [HEADERS]
 
+    table = [HEADERS]
     [table.append(row) for row in data_manager.read_table_from_file(DATAFILE)]
 
     return table

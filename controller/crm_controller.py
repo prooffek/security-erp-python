@@ -4,7 +4,7 @@ from view import terminal as view
 
 
 def list_customers():
-    
+
     view.print_table(crm.get_crm_table_from_file())
     view.get_input("Press ENTER to return to MAIN MENU")
 
@@ -40,7 +40,8 @@ def update_customer():
         if not found_ID:
             user_input = ""
             while user_input.lower() not in ["n", "no", "y", "yes"]:
-                user_input = view.get_input("Provided ID do not maches. Do you want to make correction? (y, yes or n, no)")
+                view.print_message("Provided ID do not maches.")
+                user_input = view.get_input("Do you want to enter a different ID? (y/n): ")
             if user_input.lower() in ["n", "no"]:
                 found_ID = True
 
@@ -62,7 +63,8 @@ def delete_customer():
                 view.print_message(f"Customer with id {customer_id} has been deleted.")
                 found_ID = True
         if not found_ID:
-            user_input = view.get_input("Provided id do not matches. Do you want to make correction? (y, yes or n, no)")
+            view.print_message("Provided ID do not maches.")
+            user_input = view.get_input("Do you want to enter a different ID? (y/n): ")
             if user_input.lower() in ["n", "no"]:
                 found_ID = True
 
