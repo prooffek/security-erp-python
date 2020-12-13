@@ -11,6 +11,7 @@ def list_customers():
 
 def add_customer():
     list_of_customers = crm.get_crm_table_from_file()
+    view.print_table()
     customer_data = crm.HEADERS[1:]
     continue_add = "y"
 

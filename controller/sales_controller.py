@@ -1,6 +1,7 @@
 from model.sales import sales
 from view import terminal as view
 from model import util
+from datetime import datetime
 
 
 def list_transactions():
@@ -122,48 +123,19 @@ def get_biggest_revenue_product():
 
 def count_transactions_between():
 
-    list_of_transactions = sales.read_table()
+    list_of_transaction = sales.read_table()
     date_index = sales.HEADERS.index("Date")
-    separator = "-"
-    dates = ["Beginning date", "Final date"]
-
-    view.print_message("Please provide the beginning and final dates.\n")
+    dates = ["Enter beginning date in format YYYY-MM-DD: ", "Enter final date in format YYYY-MM-DD: "]
     beginning_date, final_date = view.get_inputs(dates)
-
-    beginning_year, beginning_month, beginning_day = beginning_date.split(separator)
-    final_year, final_month, final_day = final_date.split(separator)
+    beginning_date = datetime.strptime(beginning_date, "%Y-%m-%d")
+    final_date = datetime.strptime(final_date, "%Y-%m-%d")
     number_of_transaction = 0
-
-    for transaction in list_of_transactions[1:]: # Comparing the transaction date with the dates provided by the user
-        transaction_year, transaction_month, transaction_day = transaction[date_index].split(separator)
-        if int(transaction_year) > int(beginning_year) and int(transaction_year) < int(final_year):
+    for transaction in list_of_transaction[1:]:
+        transaction_date = datetime.strptime(transaction[date_index], "%Y-%m-%d")
+        if transaction_date >= beginning_date and transaction_date <= final_date:
             number_of_transaction += 1
-        elif int(transaction_year) == int(beginning_year) and int(transaction_year) < int(final_year):
-            if int(transaction_month) > int(beginning_month):
-                number_of_transaction += 1
-            elif int(transaction_month) == int(beginning_month):
-                if int(transaction_day) >= int(beginning_day):
-                    number_of_transaction += 1
-        elif int(transaction_year) > int(beginning_year) and int(transaction_year) == int(final_year):
-            if int(transaction_month) < int(final_month):
-                number_of_transaction += 1
-            elif int(transaction_month) == int(final_month):
-                if int(transaction_day) <= int(final_day):
-                    number_of_transaction += 1
-        elif int(transaction_year) == int(beginning_year) and int(transaction_year) == int(final_year):
-            if int(transaction_month) > int(beginning_month) and int(transaction_month) < int(final_month):
-                number_of_transaction += 1
-            elif int(transaction_month) == int(beginning_month) and int(transaction_month) == int(final_month):
-                if int(transaction_day) >= int(beginning_day) and int(transaction_day) <= int(final_day):
-                    number_of_transaction += 1
-            elif int(transaction_month) == int(beginning_month):
-                if int(transaction_day) >= int(beginning_day):
-                    number_of_transaction += 1
-            elif int(transaction_month) == int(final_month):
-                if int(transaction_day) <= int(final_day):
-                    number_of_transaction += 1
 
-    view.print_general_results(int(number_of_transaction), f"Number ofnumber of transactions between {beginning_date} and {final_date} is")
+    view.print_general_results(number_of_transaction, "Number of transactions between two given dates")
     view.get_input("Press ENTER to return to MAIN MENU")
 
 
