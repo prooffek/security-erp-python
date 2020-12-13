@@ -28,6 +28,7 @@ def add_employee():
 
 def update_employee():
     list_of_employees = hr.get_hr_table_from_file()
+    view.print_table(list_of_employees)
     employee_data = hr.HEADERS[1:]
     ID_index = hr.HEADERS.index("Id")
     found_ID = False

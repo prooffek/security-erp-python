@@ -82,7 +82,7 @@ def get_input(label):
     Args:
         label: str - the label before the user prompt
     """
-    return input(label)
+    return input(label + "\n")
 
 
 def get_inputs(labels):
@@ -94,7 +94,7 @@ def get_inputs(labels):
     inputs_user = []
 
     for label_index in range(len(labels)):
-        user_input = input(labels[label_index])
+        user_input = input(labels[label_index] + "\n")
         inputs_user.append(user_input)
 
     return inputs_user

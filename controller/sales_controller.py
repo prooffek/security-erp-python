@@ -1,6 +1,7 @@
 from model.sales import sales
 from view import terminal as view
 from model import util
+import time
 
 
 def list_transactions():
@@ -22,7 +23,7 @@ def add_transaction():
             continue_adding = view.get_input("Do you want to add another transaction? (y/n): ")
     
     sales.write_table(list_of_transactions)
-    view.print_message("A new employee has been added")
+    view.print_message("A new transaction has been added")
     view.get_input("Press ENTER to return to MAIN MENU")
 
 
@@ -77,9 +78,8 @@ def get_biggest_revenue_transaction():
     list_of_transactions = sales.read_table()
     price_index = sales.HEADERS.index("Price")
     biggest_revenue_transaction = list_of_transactions[1]
-
     for transaction in list_of_transactions[1:]:
-        if transaction[price_index] > biggest_revenue_transaction[price_index]:
+        if float(transaction[price_index]) > float(biggest_revenue_transaction[price_index]):
             biggest_revenue_transaction = transaction
     table = [list_of_transactions[0], biggest_revenue_transaction]
     view.print_message("The transaction that made the biggest revenue")
@@ -126,19 +126,42 @@ def count_transactions_between():
     list_of_transactions = sales.read_table()
     date_index = sales.HEADERS.index("Date")
     separator = "-"
-    dates = ["baginning date", "final date"]
+    dates = ["beginning date", "final date"]
 
-    print("Please provide the baginning and final dates.\n") #ask the user about the range of transactions dates
+    view.print_message("Please provide the beginning and final dates.\n") 
     beginning_date, final_date = view.get_inputs(dates)
+    
     beginning_year, beginning_month, beginning_day = beginning_date.split(separator)
     final_year, final_month, final_day = final_date.split(separator)
     number_of_transaction = 0
     
     for transaction in list_of_transactions[1:]: #Comparing the transaction date with the dates provided by the user
         transaction_year, transaction_month, transaction_day = transaction[date_index].split(separator)
-        if int(transaction_year) >= int(beginning_year) and int(transaction_year) <= int(final_year):
-            if int(transaction_month) >= int(beginning_month) and int(transaction_month) <= int(final_month):
+        if int(transaction_year) > int(beginning_year) and int(transaction_year) < int(final_year):
+            number_of_transaction += 1
+        elif int(transaction_year) == int(beginning_year) and int(transaction_year) < int(final_year):
+            if int(transaction_month) > int(beginning_month):
+                number_of_transaction += 1
+            elif int(transaction_month) == int(beginning_month):
+                if int(transaction_day) >= int(beginning_day):
+                    number_of_transaction += 1
+        elif int(transaction_year) > int(beginning_year) and int(transaction_year) == int(final_year):
+            if int(transaction_month) < int(final_month):
+                number_of_transaction += 1
+            elif int(transaction_month) == int(final_month):
+                if int(transaction_day) <= int(final_day):
+                    number_of_transaction += 1
+        elif int(transaction_year) == int(beginning_year) and int(transaction_year) == int(final_year):
+            if int(transaction_month) > int(beginning_month) and int(transaction_month) < int(final_month):
+                number_of_transaction += 1
+            elif int(transaction_month) == int(beginning_month) and int(transaction_month) == int(final_month):
                 if int(transaction_day) >= int(beginning_day) and int(transaction_day) <= int(final_day):
+                    number_of_transaction += 1
+            elif int(transaction_month) == int(beginning_month):
+                if int(transaction_day) >= int(beginning_day):
+                    number_of_transaction += 1
+            elif int(transaction_month) == int(final_month):
+                if int(transaction_day) <= int(final_day):
                     number_of_transaction += 1
 
     view.print_general_results(int(number_of_transaction), f"Number ofnumber of transactions between {beginning_date} and {final_date} is")
@@ -150,9 +173,9 @@ def sum_transactions_between():
     date_index = sales.HEADERS.index("Date")
     price_index = sales.HEADERS.index("Price")
     separator = "-"
-    dates = ["baginning date", "final date"]
+    dates = ["beginning date", "final date"]
 
-    print("Please provide the baginning and final dates.\n") #ask the user about the range of transactions dates
+    view.print_message("Please provide the beginning and final dates.\n") #ask the user about the range of transactions dates
     beginning_date, final_date = view.get_inputs(dates)
     beginning_year, beginning_month, beginning_day = beginning_date.split(separator)
     final_year, final_month, final_day = final_date.split(separator)

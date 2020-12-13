@@ -11,11 +11,11 @@ def list_customers():
 
 def add_customer():
     list_of_customers = crm.get_crm_table_from_file()
-    customer_data = hr.HEADERS[1:]
+    customer_data = crm.HEADERS[1:]
     continue_add = "y"
 
     while continue_add.lower() in ["y", "yes"]:
-        new_customer = [util.generate_id()] + view.get_inputs[customer_data]
+        new_customer = [util.generate_id()] + view.get_inputs(customer_data)
         list_of_customers.append(new_customer)
         continue_add = view.get_input('Do you want to add another customer press "Y"')
     crm.write_crm_table_to_file(list_of_customers)
@@ -40,7 +40,7 @@ def update_customer():
         if not found_ID:
             user_input = ""
             while user_input.lower() not in ["n", "no", "y", "yes"]:
-                user_input = view.get_input("Provided ID do not maches. Do you want to make correction")
+                user_input = view.get_input("Provided ID do not maches. Do you want to make correction? (y, yes or n, no)")
             if user_input.lower() in ["n", "no"]:
                 found_ID = True
 
@@ -59,14 +59,14 @@ def delete_customer():
         for customer in list_of_customers:
             if customer[ID_index] == customer_id:
                 list_of_customers.remove(customer)
+                view.print_message(f"Customer with id {customer_id} has been deleted.")
                 found_ID = True
         if not found_ID:
-            user_input = view.get_input("Provided id do not matches. Do you want to make correction")
+            user_input = view.get_input("Provided id do not matches. Do you want to make correction? (y, yes or n, no)")
             if user_input.lower() in ["n", "no"]:
                 found_ID = True
 
     crm.write_crm_table_to_file(list_of_customers)
-    view.print_message(f"Customer with id {customer_id} has been deleted.")
     view.get_input("Press ENTER to return to MAIN MENU")
 
 
