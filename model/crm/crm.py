@@ -25,4 +25,4 @@ def get_crm_table_from_file():
 def write_crm_table_to_file(table):
 
     data_manager.write_table_to_file(DATAFILE, table[1:])
-    
+ 

@@ -25,9 +25,11 @@ def add_customer():
 
 
 def update_customer():
+
     list_customers = crm.get_crm_table_from_file()
+    view.print_table(list_customers)
     customer_data = crm.HEADERS[1:]
-    ID_index = crm.HEADERS.index("Id")
+    ID_index = crm.HEADERS.index("id")
     found_ID = False
 
     while not found_ID:
