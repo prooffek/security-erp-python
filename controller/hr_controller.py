@@ -130,15 +130,19 @@ def next_birthdays():
     current_date = date.today()
     next_date = current_date + timedelta(time_delta)
     names = []
+    table = []
 
     for employee_index in range(1, len(list_of_employees)):
         date_birth_employee = datetime.strptime(list_of_employees[employee_index][birth_date_index], "%Y-%m-%d").date()
         if date_birth_employee.strftime('%m-%d') >= current_date.strftime('%m-%d') and date_birth_employee.strftime('%m-%d') <= next_date.strftime('%m-%d'):
             names.append(list_of_employees[employee_index][name_index])
+            table.append(list_of_employees[employee_index])
     if len(names) == 0:
         view.print_message("No employee has a birthday in the next two weeks.")
     else:
         view.print_general_results(names, "Employees with birthdays in the next two weeks")
+        print()
+        view.print_table(table)
     view.get_input("Press ENTER to return to MAIN MENU")
 
 

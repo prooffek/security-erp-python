@@ -143,28 +143,16 @@ def sum_transactions_between():
     list_of_transactions = sales.read_table()
     date_index = sales.HEADERS.index("Date")
     price_index = sales.HEADERS.index("Price")
-    separator = "-"
-    dates = ["beginning date", "final date"]
-
-    view.print_message("Please provide the beginning and final dates.\n") # ask the user about the range of transactions dates
+    dates = ["Enter beginning date in format YYYY-MM-DD: ", "Enter final date in format YYYY-MM-DD: "]
     beginning_date, final_date = view.get_inputs(dates)
-    beginning_year, beginning_month, beginning_day = beginning_date.split(separator)
-    final_year, final_month, final_day = final_date.split(separator)
+    beginning_date = datetime.strptime(beginning_date, "%Y-%m-%d")
+    final_date = datetime.strptime(final_date, "%Y-%m-%d")
 
     transaction_sum = 0
     table = [sales.HEADERS]
-
-    for transaction in list_of_transactions[1:]: # Comparing the transaction date with the dates provided by the user
-        value = False
-        transaction_year, transaction_month, transaction_day = transaction[date_index].split(separator)
-        if int(transaction_year) > int(beginning_year) and int(transaction_year) < int(final_year):
-            value = True
-        elif int(transaction_year) == int(beginning_year) and int(transaction_month) >= int(beginning_month) and int(transaction_day) >= int(beginning_day) and int(transaction_year) <= int(final_year) and int(transaction_month) <= int(final_month) and int(transaction_day) <= int(final_day):
-            value = True
-        elif int(transaction_year) >= int(beginning_year) and int(transaction_month) >= int(beginning_month) and int(transaction_day) >= int(beginning_day) and int(transaction_year) == int(final_year) and int(transaction_month) <= int(final_month) and int(transaction_day) <= int(final_day):
-            value = True
-  
-        if value:
+    for transaction in list_of_transactions[1:]:
+        transaction_date = datetime.strptime(transaction[date_index], "%Y-%m-%d")
+        if transaction_date >= beginning_date and transaction_date <= final_date:
             transaction_sum += float(transaction[price_index])
             table.append(transaction)
 
