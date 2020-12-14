@@ -130,7 +130,7 @@ def next_birthdays():
     current_date = date.today()
     next_date = current_date + timedelta(time_delta)
     names = []
-    table = []
+    table = [hr.HEADERS]
 
     for employee_index in range(1, len(list_of_employees)):
         date_birth_employee = datetime.strptime(list_of_employees[employee_index][birth_date_index], "%Y-%m-%d").date()
