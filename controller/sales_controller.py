@@ -5,29 +5,33 @@ from datetime import datetime
 
 
 def list_transactions():
+
+    view.print_message("List of transactions:\n")
     view.print_table(sales.read_table())
     view.get_input("Press ENTER to return to MAIN MENU")
 
 
 def add_transaction():
+
     list_of_transactions = sales.read_table()
     transactions_data = sales.HEADERS[1:]
     continue_adding = "y"
 
     while continue_adding.lower() in ["y", "yes"]:
         new_transaction = [util.generate_id()] + view.get_inputs(transactions_data)
-        print(new_transaction)
+        view.print_message(new_transaction)
+        view.print_message("Succesfully added new transaction.")
         correct = view.get_input("Are these data correct? (y/n): ")
         if correct.lower() in ['y', 'yes']:
             list_of_transactions.append(new_transaction)
             continue_adding = view.get_input("Do you want to add another transaction? (y/n): ")
 
     sales.write_table(list_of_transactions)
-    view.print_message("A new transaction has been added")
     view.get_input("Press ENTER to return to MAIN MENU")
 
 
 def update_transaction():
+
     list_of_transactions = sales.read_table()
     view.print_table(list_of_transactions)
     id_transaction_index = sales.HEADERS.index("Id")
@@ -35,11 +39,11 @@ def update_transaction():
     found_ID = False
 
     while not found_ID:
-        transaction_id = view.get_input("Enter the transaction ID: ")
+        transaction_id = view.get_input("Enter the transaction ID number: ")
         for transaction in list_of_transactions[1:]:
             if transaction_id == transaction[id_transaction_index]:
                 transaction[1:] = view.get_inputs(transaction_data)
-                view.print_message("Transaction has been updated.")
+                view.print_message(f"Transaction with id {transaction_id} has been updated.")
                 found_ID = True
         if not found_ID:
             view.print_error_message("The ID provided matches no transaction.")
@@ -52,6 +56,7 @@ def update_transaction():
 
 
 def delete_transaction():
+
     list_of_transactions = sales.read_table()
     view.print_table(list_of_transactions)
     found_ID = False
@@ -75,19 +80,21 @@ def delete_transaction():
 
 
 def get_biggest_revenue_transaction():
+
     list_of_transactions = sales.read_table()
     price_index = sales.HEADERS.index("Price")
     biggest_revenue_transaction = list_of_transactions[1]
     for transaction in list_of_transactions[1:]:
         if float(transaction[price_index]) > float(biggest_revenue_transaction[price_index]):
             biggest_revenue_transaction = transaction
-    table = [list_of_transactions[0], biggest_revenue_transaction]
+    table = [sales.HEADERS, biggest_revenue_transaction]
     view.print_message("The transaction that made the biggest revenue")
     view.print_table(table)
     view.get_input("Press ENTER to return to MAIN MENU")
 
 
 def get_biggest_revenue_product():
+
     list_of_transactions = sales.read_table()
     price_index = sales.HEADERS.index("Price")
     name_index = sales.HEADERS.index("Product")
@@ -115,7 +122,7 @@ def get_biggest_revenue_product():
             table.append(transaction)
 
     view.print_message(f"The product with the biggest revenue is: {product_with_biggest_revenue}\nThe revenue of the product is: {product_revenue_dict[product_with_biggest_revenue]}")
-    print()
+    view.print_message("/n")
     view.print_table(table)
 
     view.get_input("Press ENTER to return to MAIN MENU")

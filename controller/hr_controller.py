@@ -6,12 +6,13 @@ from datetime import datetime, date, timedelta
 
 def list_employees():
 
-    view.print_message("List of Emplyees\n")
+    view.print_message("List of Employees:\n")
     view.print_table(hr.get_hr_table_from_file())
     view.get_input("Press ENTER to return to MAIN MENU")
 
 
 def add_employee():
+
     list_of_employees = hr.get_hr_table_from_file()
     employee_data = hr.HEADERS[1:]
     continue_adding = "y"
@@ -19,14 +20,15 @@ def add_employee():
     while continue_adding.lower() in ["y", "yes"]:
         new_employee = [util.generate_id()] + view.get_inputs(employee_data)
         list_of_employees.append(new_employee)
+        view.print_message("Succesfully added new employee.")
         continue_adding = view.get_input("Do you want to add another employee? (y/n): ")
 
     hr.write_hr_table_to_file(list_of_employees)
-    view.print_message("A new employee has been added")
     view.get_input("Press ENTER to return to MAIN MENU")
 
 
 def update_employee():
+
     list_of_employees = hr.get_hr_table_from_file()
     view.print_table(list_of_employees)
     employee_data = hr.HEADERS[1:]
@@ -34,12 +36,12 @@ def update_employee():
     found_ID = False
 
     while not found_ID:
-        employee_ID = view.get_input("Please, enter the employee's ID number: ")
+        employee_ID = view.get_input("Enter the employee's ID number: ")
         for employee in list_of_employees:
             if employee[ID_index] == employee_ID:
                 employee[1:] = view.get_inputs(employee_data)
+                view.print_message(f"Employee with id {employee_id} has been updated.")
                 found_ID = True
-                break
 
         if not found_ID:
             user_input = ""
@@ -54,13 +56,14 @@ def update_employee():
 
 
 def delete_employee():
+
     list_of_employees = hr.get_hr_table_from_file()
     view.print_table(list_of_employees)
     found_iD = False
     ID_index = 0
 
     while not found_iD:
-        employee_id = view.get_input("Please, enter the employee's ID number: ")
+        employee_id = view.get_input("Enter the employee's ID number: ")
         for employee in list_of_employees:
             if employee[ID_index] == employee_id:
                 list_of_employees.remove(employee)
@@ -85,31 +88,31 @@ def get_oldest_and_youngest():
     youngest = list_of_employees[1]
     oldest_and_youngest = {"Oldest": oldest[name_index], "Youngest": youngest[name_index]}
 
-    for employee_index in range(1, len(list_of_employees)):
-        employee_date_birth = datetime.strptime(list_of_employees[employee_index][birth_date_index], "%Y-%m-%d")
+    for employee in list_of_employees[1:]:
+        employee_date_birth = datetime.strptime(employee[birth_date_index], "%Y-%m-%d")
         oldest_date_birth = datetime.strptime(oldest[birth_date_index], "%Y-%m-%d")
         youngest_date_birth = datetime.strptime(youngest[birth_date_index], "%Y-%m-%d")
 
         if employee_date_birth < oldest_date_birth:
-            oldest_and_youngest["Oldest"] = list_of_employees[employee_index][name_index]
-            oldest = list_of_employees[employee_index]
+            oldest_and_youngest["Oldest"] = employee[name_index]
+            oldest = employee
         elif employee_date_birth > youngest_date_birth:
-            oldest_and_youngest["Youngest"] = list_of_employees[employee_index][name_index]
-            youngest = list_of_employees[employee_index]
+            oldest_and_youngest["Youngest"] = employee[name_index]
+            youngest = employee
 
     view.print_general_results(oldest_and_youngest, "Oldest and youngest employees: ")
     view.get_input("Press ENTER to return to MAIN MENU")
 
 
 def get_average_age():
+
     list_of_employees = hr.get_hr_table_from_file()
-    list_without_header = list_of_employees[1:]
     separator = "-"
     date_of_birth_index = hr.HEADERS.index("Date of birth")
     current_year, current_month, current_day = str(date.today()).split(separator)
 
     age = 0
-    for employee in list_without_header:
+    for employee in list_of_employees[1:]:
         date_of_birth = employee[date_of_birth_index]
         birth_year, birth_month, birth_day = str(date.fromisoformat(date_of_birth)).split(separator)
 
@@ -118,11 +121,12 @@ def get_average_age():
         else:
             age += int(current_year) - int(birth_year)
 
-    view.print_general_results(age/len(list_without_header), "Employees' avarage age is")
+    view.print_general_results(age/len(list_of_employees), "Employees' avarage age is")
     view.get_input("Press ENTER to return to MAIN MENU")
 
 
 def next_birthdays():
+
     list_of_employees = hr.get_hr_table_from_file()
     birth_date_index = hr.HEADERS.index("Date of birth")
     name_index = hr.HEADERS.index("Name")
@@ -132,21 +136,21 @@ def next_birthdays():
     names = []
     table = [hr.HEADERS]
 
-    for employee_index in range(1, len(list_of_employees)):
-        date_birth_employee = datetime.strptime(list_of_employees[employee_index][birth_date_index], "%Y-%m-%d").date()
+    for employee in list_of_employees[1:]:
+        date_birth_employee = datetime.strptime(employee[birth_date_index], "%Y-%m-%d").date()
         if date_birth_employee.strftime('%m-%d') >= current_date.strftime('%m-%d') and date_birth_employee.strftime('%m-%d') <= next_date.strftime('%m-%d'):
-            names.append(list_of_employees[employee_index][name_index])
-            table.append(list_of_employees[employee_index])
+            names.append(employee[name_index])
+            table.append(employee)
     if len(names) == 0:
         view.print_message("No employee has a birthday in the next two weeks.")
     else:
-        view.print_general_results(names, "Employees with birthdays in the next two weeks")
-        print()
+        view.print_general_results(names, "Employees with birthdays in the next two weeks: \n")
         view.print_table(table)
     view.get_input("Press ENTER to return to MAIN MENU")
 
 
 def count_employees_with_clearance():
+
     list_of_employees = hr.get_hr_table_from_file()
     clearance_index = hr.HEADERS.index("Clearance")
     num_of_employees = 0
@@ -162,6 +166,7 @@ def count_employees_with_clearance():
 
 
 def count_employees_per_department():
+
     list_of_employees = hr.get_hr_table_from_file()
     department_index = hr.HEADERS.index("Department")
     employees_department_count = {}
